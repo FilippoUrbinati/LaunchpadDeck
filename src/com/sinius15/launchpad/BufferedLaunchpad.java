@@ -10,19 +10,19 @@ import java.util.Arrays;
  * BufferedLaunchpad keeps an int[][] of the led state on the launchpad. This
  * means you will also be able to ask what the current led state is with
  * funciton {@link #getLedState()}.
- * 
+ *
  * @author Sinius15
  * @see www.sinius15.com
  */
 public class BufferedLaunchpad extends Launchpad {
-	
+
 	// [row][col]
 	int[][] ledState = new int[9][9];
-	
+
 	/**
 	 * see {@link BufferedLaunchpad} for the difference between a Standared
 	 * Launchpad and a Buffered Launchpad.
-	 * 
+	 *
 	 * @author Sinius15
 	 * @param midiDeviceName
 	 *            The name of the device. If the name is NULL, than a epty
@@ -35,15 +35,15 @@ public class BufferedLaunchpad extends Launchpad {
 	 */
 	public BufferedLaunchpad(String midiDeviceName) throws LaunchpadException {
 		super(midiDeviceName);
-		for (int[] a : ledState) 
+		for (int[] a : ledState)
 			Arrays.fill(a, COLOR_OFF);
 	}
-	
+
 	/**
 	 * Turns on a led on the launchpad. If the button on the launchpad is
 	 * already turned on on this color, than it will not send a message to the
 	 * lanchpad.
-	 * 
+	 *
 	 * @param column
 	 *            the column on the launchpad where the left column is 0 and the
 	 *            right column with the round buttons is 8
@@ -62,12 +62,12 @@ public class BufferedLaunchpad extends Launchpad {
 		super.setLedOn(column, row, color);
 		ledState[row][column] = color;
 	}
-	
+
 	/**
 	 * Turns off a led on the launchpad. If the button on the launchpad is
 	 * already turned off, than this function will not send a message to the
 	 * launchpad.
-	 * 
+	 *
 	 * @param column
 	 *            the column on the launchpad where the left colomn is 0 and the
 	 *            right colomn with the round buttons is 8
@@ -83,17 +83,17 @@ public class BufferedLaunchpad extends Launchpad {
 		super.setLedOff(column, row);
 		ledState[row][column] = COLOR_OFF;
 	}
-	
+
 	@Override
 	public void reset() {
 		super.reset();
-		for (int[] a : ledState) 
+		for (int[] a : ledState)
 			Arrays.fill(a, COLOR_OFF);
 	}
-	
+
 	/**
 	 * Get the color of a button on the launchpad.
-	 * 
+	 *
 	 * @param colomn
 	 *            the colomn of the button you want to get te led color of.
 	 * @param row
@@ -104,11 +104,11 @@ public class BufferedLaunchpad extends Launchpad {
 	public int getLedState(int colomn, int row) {
 		return ledState[row][colomn];
 	}
-	
+
 	/**
 	 * Get the array where all the color codes of the colors on the launchpad
 	 * are stored.
-	 * 
+	 *
 	 * @return a 2d integer array where int[row][colomn].
 	 */
 	public int[][] getLedStates() {

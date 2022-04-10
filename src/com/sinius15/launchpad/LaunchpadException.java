@@ -9,9 +9,9 @@ public class LaunchpadException extends Exception{
 	public LaunchpadException(String launchpadName, String message) {
 		super(message);
 		this.launchpadName = launchpadName;
-		
+
 	}
-	
+
 	public String getLaunchpadName() {
 		return launchpadName;
 	}

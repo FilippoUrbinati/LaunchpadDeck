@@ -1,5 +1,6 @@
-package com.sinius15.launchpad;
 
+import com.sinius15.launchpad.*;
+import com.classes.*;
 import org.jsresources.MidiCommon;
 import javax.sound.midi.MidiUnavailableException;
 
@@ -11,9 +12,7 @@ public class Main {
       launchpad.open();
       launchpad.reset();
       launchpad.addButtonListener(new MyListener(launchpad));
-      for (String s : MidiCommon.listDevices(true, true)) {
-         System.out.println(s);
-      }
+      Gui gui = new Gui();
    }
 
 

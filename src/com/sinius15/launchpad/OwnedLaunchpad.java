@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * In short: this Launchpad controller gives every button more layers where
  * every layer is owned by a owner. The top color will be shown on the pad. If
  * the top color is removed, the color beneath there will be shown.
- * 
+ *
  * @author Sinius15
- * 
+ *
  */
 public class OwnedLaunchpad extends BufferedLaunchpad {
 
@@ -30,7 +30,7 @@ public class OwnedLaunchpad extends BufferedLaunchpad {
 	/**
 	 * see {@link OwnedLaunchpad} for the difference between a Standared
 	 * Launchpad and a Owned Launchpad.
-	 * 
+	 *
 	 * @author Sinius15
 	 * @param midiDeviceName
 	 *            The name of the device. If the name is NULL, than a epty
@@ -52,7 +52,7 @@ public class OwnedLaunchpad extends BufferedLaunchpad {
 
 	/**
 	 * Sets on a led with the defined owner.
-	 * 
+	 *
 	 * @param column
 	 *            the column on the Launchpad where the left column is 0 and the
 	 *            right column with the round buttons is 8
@@ -78,7 +78,7 @@ public class OwnedLaunchpad extends BufferedLaunchpad {
 
 	/**
 	 * Turns off all the color layers with this owner on the button.
-	 * 
+	 *
 	 * @param column
 	 *            the column on the Launchpad where the left column is 0 and the
 	 *            right column with the round buttons is 8
@@ -95,7 +95,7 @@ public class OwnedLaunchpad extends BufferedLaunchpad {
 		buttons[row][column].removeAllFromOnwer(owner);
 		super.setLedOn(column, row, buttons[row][column].getLastColor());
 	}
-	
+
 	public void clearLed(int column, int row) {
 		buttons[row][column].owners.clear();
 		super.setLedOn(column, row, buttons[row][column].getLastColor());
@@ -139,7 +139,7 @@ public class OwnedLaunchpad extends BufferedLaunchpad {
 	}
 
 	/**
-	 * Every physical button on the pad has a instance of this class. 
+	 * Every physical button on the pad has a instance of this class.
 	 * @author Sinius15
 	 */
 	private class Button {

@@ -1,7 +1,8 @@
-package com.sinius15.launchpad;
+package com.classes;
 
-//import com.sinius15.launchpad.Launchpad;
+import com.sinius15.launchpad.Launchpad;
 import com.sinius15.launchpad.events.ButtonListener;
+
 
 public class MyListener implements ButtonListener {
 

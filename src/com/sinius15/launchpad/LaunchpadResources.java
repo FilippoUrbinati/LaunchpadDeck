@@ -3,7 +3,7 @@ package com.sinius15.launchpad;
 import com.sinius15.launchpad.pattern.LaunchpadPattern;
 
 public class LaunchpadResources {
-	
+
 	public static final int[][] LETTER_CAPITAL_A = { { -1, -1, -1, -1, -1, -1, -1, -1, -1 },
 			{ -1, -1, -1, 15, 15, 15, 15, 15, 15 }, { -1, -1, 15, -1, -1, 15, -1, -1, -1 },
 			{ -1, -1, 15, -1, -1, 15, -1, -1, -1 }, { -1, -1, 15, -1, -1, 15, -1, -1, -1 },
@@ -139,10 +139,10 @@ public class LaunchpadResources {
 			{ -1, -1, -1, -1, -1, -1, -1, 15, -1 }, { -1, -1, -1, -1, -1, -1, -1, 15, -1 },
 			{ -1, -1, -1, -1, -1, -1, -1, 15, -1 }, { -1, -1, -1, -1, -1, -1, -1, 15, -1 },
 			{ -1, -1, -1, -1, -1, -1, -1, 15, -1 }, { -1, -1, -1, -1, -1, -1, -1, 15, -1 } };
-	
+
 	/**
 	 * Finds a default LaunchpadPattern with the letter.
-	 * 
+	 *
 	 * @param letter
 	 *            the letter you want to receive the LaunchpadPattern from
 	 * @return The launchpadPattern requested. If not found null.
