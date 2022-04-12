@@ -17,6 +17,41 @@ public class Gui extends JFrame {
       pack();
       setVisible(true);
    }
+   
+   public void addTopPanel() {
+       JPanel panel = new JPanel();
+       //nel panel ci va un altro panel (8 bottoni tondi) e un bottone per i settings
+       
+       add(panel, BorderLayout.NORTH);
+   }
+   
+   public void addLeftPanel() {
+       JPanel panel = new JPanel(new FlowLayout.CENTER);
+       
+       
+       addButtons(panel);
+       
+       
+       add(panel, BorderLayout.EAST);
+   }
+   
+   public void addCentralPanel() {
+       JPanel panel = new JPanel();
+       
+       
+       add(panel, BorderLayout.CENTER);
+   }
+   
+   
+   
+   public void addButtons(JPanel panel) {
+       ArrayList <JButton> buttonList
+       
+       
+       for (int i = 0; i < 8; i++) {
+           panel.add(buttonList[i]);
+       }
+   }
 
    public void setLayout() {
       setLayout(new BorderLayout());
