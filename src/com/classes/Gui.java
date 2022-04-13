@@ -20,6 +20,7 @@ public class Gui extends JFrame {
    
    public void addTopPanel() {
        JPanel panel = new JPanel();
+       panel.setBackground(Color.RED);
        //nel panel ci va un altro panel (8 bottoni tondi) e un bottone per i settings
        
        add(panel, BorderLayout.NORTH);
@@ -27,17 +28,23 @@ public class Gui extends JFrame {
    
    public void addLeftPanel() {
        JPanel panel = new JPanel(new FlowLayout.CENTER);
+        panel.setBackground(Color.BLUE);
        
-       
-       addButtons(panel);
+       //addButtons(panel);
        
        
        add(panel, BorderLayout.EAST);
    }
    
    public void addCentralPanel() {
-       JPanel panel = new JPanel();
+       JPanel panel = new JPanel(new GridLayout(2,1));
+       SquareButton btn1 = new SquareButton(0, 1);
+       SquareButton btn2 = new SquareButton(5, 6);
        
+       panel.setBackground(Color.GREEN);
+       
+       panel.add(btn1);
+       panel.add(btn2);
        
        add(panel, BorderLayout.CENTER);
    }
@@ -45,12 +52,12 @@ public class Gui extends JFrame {
    
    
    public void addButtons(JPanel panel) {
-       ArrayList <JButton> buttonList
-       
-       
+       ArrayList <SquareButton> buttonList = new ArrayList<SquareButton>();
        for (int i = 0; i < 8; i++) {
-           panel.add(buttonList[i]);
+            buttonList.get(i) = new SquareButton();
+            panel.add(buttonList[i], FlowLayout.CENTER);
        }
+       
    }
 
    public void setLayout() {
