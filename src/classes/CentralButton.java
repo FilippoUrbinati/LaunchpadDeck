@@ -22,7 +22,8 @@ public class CentralButton extends CustomButton {
          @Override
          public void mouseClicked(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1) {
-               //apri schermata setting per quel tasto
+               ButtonSetterDialog dialog = new ButtonSetterDialog();
+
                System.out.println(getColumn() + "" + getRow());
             }
          }

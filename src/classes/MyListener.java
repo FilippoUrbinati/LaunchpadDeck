@@ -14,16 +14,16 @@ public class MyListener implements ButtonListener {
    }
    boolean isActive;
    @Override
-   public void onButtonDown(int colomn, int row) {
+   public void onButtonDown(int row, int colomn) {
 
-      if (colomn == 0 && row == 0) {
+      if (row == 0 && colomn == 0) {
          if(isActive == false) {
             System.out.println("now it's red");
-            launchpad.setLedOn(row, colomn, Launchpad.COLOR_RED_FULL);
+            launchpad.setLedOn(colomn, row, Launchpad.COLOR_RED_LOW);
             isActive = true;
          } else {
             System.out.println("now it's turned off");
-            launchpad.setLedOff(row, colomn);
+            launchpad.setLedOff(colomn, row);
             isActive = false;
          }
 
@@ -33,19 +33,34 @@ public class MyListener implements ButtonListener {
             e.printStackTrace();
          }
       }
-      if (colomn == 1 && row == 0) {
+      if (row == 1 && colomn == 0) {
          if(isActive == false) {
             System.out.println("now it's red");
-            launchpad.setLedOn(row, colomn, Launchpad.COLOR_RED_FULL);
+            launchpad.setLedOn(colomn, row, Launchpad.COLOR_RED_FULL);
             isActive = true;
          } else {
             System.out.println("now it's turned off");
-            launchpad.setLedOff(row, colomn);
+            launchpad.setLedOff(colomn, row);
             isActive = false;
          }
 
          soundPlayer.setVolume(0.2f);
          //soundPlayer.stop();
+      }
+      if (row == 2 && colomn == 0) {
+         launchpad.setLedOn(colomn, row, Launchpad.COLOR_AMBER_LOW);
+      }
+      if (row == 3 && colomn == 0) {
+         launchpad.setLedOn(colomn, row, Launchpad.COLOR_AMBER_FULL);
+      }
+      if (row == 4 && colomn == 0) {
+         launchpad.setLedOn(colomn, row, Launchpad.COLOR_YELLOW_FULL);
+      }
+      if (row == 5 && colomn == 0) {
+         launchpad.setLedOn(colomn, row, Launchpad.COLOR_GREEN_LOW);
+      }
+      if (row == 6 && colomn == 0) {
+         launchpad.setLedOn(colomn, row, Launchpad.COLOR_GREEN_FULL);
       }
    }
 

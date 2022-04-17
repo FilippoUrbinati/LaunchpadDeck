@@ -22,7 +22,7 @@ public class Gui extends JFrame {
       setVisible(true);
    }
 
-   public void setLayout() {
+   private void setLayout() {
       setLayout(new BorderLayout(12, 15));
       addTopPanel();
       addRightPanel();
