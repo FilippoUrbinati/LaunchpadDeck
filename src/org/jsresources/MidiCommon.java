@@ -49,7 +49,7 @@ import javax.sound.midi.MidiUnavailableException;
 
 /** Utility methods for MIDI examples. */
 public class MidiCommon {
-	
+
 	/**
 	 * @param bForInput if you want to receive input devices
 	 * @param bForOutput if you want to receive output devices
@@ -72,15 +72,15 @@ public class MidiCommon {
 		}
 		return out.toArray(new String[out.size()]);
 	}
-	
+
 	/**
 	 * Retrieve a MidiDevice.Info for a given name.
-	 * 
+	 *
 	 * This method tries to return a MidiDevice.Info whose name matches the
 	 * passed name. If no matching MidiDevice.Info is found, null is returned.
 	 * If bForOutput is true, then only output devices are searched, otherwise
 	 * only input devices.
-	 * 
+	 *
 	 * @param strDeviceName
 	 *            the name of the device for which an info object should be
 	 *            retrieved.
@@ -108,13 +108,13 @@ public class MidiCommon {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Retrieve a MidiDevice.Info by index number. This method returns a
 	 * MidiDevice.Info whose index is specified as parameter. This index matches
 	 * the number printed in the listDevicesAndExit method. If index is too
 	 * small or too big, null is returned.
-	 * 
+	 *
 	 * @param index
 	 *            the index of the device to be retrieved
 	 * @return A MidiDevice.Info object of the specified index or null if none
