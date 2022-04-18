@@ -24,7 +24,7 @@ public class CentralButton extends CustomButton {
             if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1) {
                ButtonSetterDialog dialog = new ButtonSetterDialog();
 
-               System.out.println(getColumn() + "" + getRow());
+               //System.out.println(getColumn() + "" + getRow());
             }
          }
       });
