@@ -7,7 +7,10 @@ import java.util.*;
 
 public class Gui extends JFrame {
 
-   public Gui() {
+   DataManager dataManager;
+
+   public Gui(DataManager dataManager) {
+      this.dataManager = dataManager;
 
       setLayout();
 
@@ -22,7 +25,7 @@ public class Gui extends JFrame {
       setVisible(true);
    }
 
-   private void setLayout() {
+   public void setLayout() {
       setLayout(new BorderLayout(12, 15));
       addTopPanel();
       addRightPanel();
@@ -74,8 +77,13 @@ public class Gui extends JFrame {
       int counter = 0;
       for (int i = 1; i <= 8; i++) {      //row 1-8
          for (int ii = 0; ii < 8; ii++) {  //column 0-7
-            buttonList.add(new CentralButton(ii ,i));
-            addRightClickListener(buttonList.get(counter));
+            CentralButton cb = new CentralButton(ii ,i, dataManager);
+
+            if (dataManager.exists(cb)) {
+               cb.setBackground(dataManager.getGuiColor());
+            }
+            addRightClickListener(cb);
+            buttonList.add(cb);
             panel.add(buttonList.get(counter));
             counter++;
          }

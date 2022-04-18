@@ -6,12 +6,19 @@ import javax.swing.*;
 
 public class CentralButton extends CustomButton {
 
+   DataManager dataManager;
+
    int column;
    int row;
+   int launchpadColor;
+   Color guiColor;
+   String sound;
 
-   public CentralButton(int column, int row) {
+   public CentralButton(int column, int row, DataManager dataManager) {
       this.column = column;
       this.row = row;
+      this.dataManager = dataManager;
+
       setBorder(1, Color.BLACK);
       //setRadius(10);
       setListener();
@@ -22,7 +29,7 @@ public class CentralButton extends CustomButton {
          @Override
          public void mouseClicked(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1) {
-               ButtonSetterDialog dialog = new ButtonSetterDialog();
+               ButtonSetterDialog dialog = new ButtonSetterDialog(column, row, dataManager);
 
                //System.out.println(getColumn() + "" + getRow());
             }
@@ -42,6 +49,16 @@ public class CentralButton extends CustomButton {
    }
    public void setRow(int row) {
       this.row = row;
+   }
+
+   public void setLaunchpadColor(int color) {
+      //imposta colore tasto launchpad
+   }
+   public void setGuiColor(Color color) {
+      setBackground(color);
+   }
+   public void setSound() {
+      this.sound = sound;
    }
 
 }

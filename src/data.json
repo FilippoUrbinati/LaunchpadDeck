@@ -1,0 +1,50 @@
+[
+   {
+      "column": 1,
+      "row": 8,
+      "launchpadColor": 15,
+      "guiColor": {
+         "red": 255,
+         "green": 0,
+         "blue": 0
+      },
+      "sound": "primo.wav",
+      "volume": 10
+   },
+   {
+      "column": 3,
+      "row": 8,
+      "launchpadColor": 60,
+      "guiColor": {
+         "red": 0,
+         "green": 255,
+         "blue": 0
+      },
+      "sound": "secondo.wav",
+      "volume": 20
+   },
+   {
+      "column": 6,
+      "row": 2,
+      "launchpadColor": 63,
+      "guiColor": {
+         "red": 255,
+         "green": 255,
+         "blue": 0
+      },
+      "sound": "terzo.wav",
+      "volume": 30
+   },
+   {
+      "column": 2,
+      "row": 1,
+      "launchpadColor": 13,
+      "guiColor": {
+         "red": 85,
+         "green": 0,
+         "blue": 0
+      },
+      "sound": "ss.wav",
+      "volume": 100
+   }
+]

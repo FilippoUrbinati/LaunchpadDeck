@@ -8,19 +8,19 @@ import java.util.*;
 
 public class ButtonSetterDialog extends JDialog {
 
-   int[] colorsInt = {12, 28, 44, 60,
-                  13, 29, 45, 61,
-                  14, 30, 45, 62,
-                  15, 31, 47, 63};
-   ArrayList <Color> colors = new ArrayList<Color>();
+   DataManager dataManager;
 
-   Color buttonColor;
+   int column;
+   int row;
+   int launchpadColor;
+   Color guiColor;
    String sound;
    int volume;
 
-   public ButtonSetterDialog() {
-      inizializeColors();
-      
+   public ButtonSetterDialog(int column, int row, DataManager dataManager) {
+      this.column = column;
+      this.row = row;
+      this.dataManager = dataManager;
       setPreferredSize(new Dimension(350, 400));
       setLocation(150, 150);
       setModal(true);
@@ -42,6 +42,7 @@ public class ButtonSetterDialog extends JDialog {
    }
 
    public void addColorPanel() {
+
       JPanel panel = new JPanel(new GridBagLayout());
       JLabel label = new JLabel("Choose color:");
       JPanel buttonPanel = new JPanel(new GridLayout(4, 4));
@@ -52,7 +53,7 @@ public class ButtonSetterDialog extends JDialog {
          for (int ii = 0; ii < 4; ii++) {
             ColorButton button = new ColorButton(counter);
             button.setPreferredSize(new Dimension(20,20));
-            button.setBackground(colors.get(counter));
+            button.setBackground(LaunchpadColor.colors.get(counter));
             button.addActionListener(new ActionListener() {
                @Override
                public void actionPerformed(ActionEvent e) {
@@ -161,27 +162,9 @@ public class ButtonSetterDialog extends JDialog {
       return gbc;
    }
 
-   private void inizializeColors() {
-      colors.add(new Color(255, 255, 255));
-      colors.add(new Color(0, 85, 0));
-      colors.add(new Color(0, 170, 0));
-      colors.add(new Color(0, 255, 0));
-      colors.add(new Color(85, 0, 0));
-      colors.add(new Color(85, 84, 0));
-      colors.add(new Color(84, 170, 0));
-      colors.add(new Color(85, 255, 0));
-      colors.add(new Color(170, 0, 0));
-      colors.add(new Color(170, 86, 0));
-      colors.add(new Color(171, 170, 0));
-      colors.add(new Color(170, 255, 0));
-      colors.add(new Color(255, 0, 0));
-      colors.add(new Color(255, 85, 0));
-      colors.add(new Color(255, 170, 0));
-      colors.add(new Color(255, 255, 0));
-   }
-
    public void setColor(int counter) {
-      this.buttonColor = colors.get(counter);
+      this.guiColor = LaunchpadColor.colors.get(counter);
+      this.launchpadColor = LaunchpadColor.colorsInt[counter];
    }
    public void setSound(String sound) {
       this.sound = sound;
@@ -198,7 +181,7 @@ public class ButtonSetterDialog extends JDialog {
 
    public void closeOperation() {
 
-      if (buttonColor == null) {
+      if (guiColor == null) {
          colorNotChoosed();
          return;
       }
@@ -209,9 +192,27 @@ public class ButtonSetterDialog extends JDialog {
       if (volume == 0) {
          setVolume(100);
       }
+      sound += ".wav";
+
 
 
       //salva data
+
+      //aggiugere un nuovo LaunchpadButton ad un array
+      //e dopo salvare i dati
+
+
+      LaunchpadButton lb = new LaunchpadButton(column, row, launchpadColor, toColorData(guiColor), sound, volume);
+      //aggiungi la pagina (1-8, tasti laterali)
+      dataManager.addLaunchpadButton(lb);
+      dataManager.saveData();
+      //così setta anche il tasto nuovo
+      dataManager.loadData();
+
+
+
+
+
       //setta tasto
       //usa data manager
 
@@ -247,5 +248,7 @@ public class ButtonSetterDialog extends JDialog {
       dialog.setVisible(true);
    }
 
-
+   public ColorData toColorData(Color color) {
+      return new ColorData(color.getRed(), color.getGreen(), color.getBlue());
+   }
 }

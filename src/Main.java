@@ -1,23 +1,29 @@
 import com.sinius15.launchpad.*;
 import classes.*;
 import org.jsresources.MidiCommon;
-import javax.sound.midi.MidiUnavailableException;
 import com.google.gson.*;
 
 public class Main {
 
-   public static void main(String[] args) throws LaunchpadException, MidiUnavailableException {
-      Launchpad launchpad = new Launchpad("Launchpad Mini");
-      System.out.println("Connection: " + launchpad.isConnected());
-      launchpad.open();
-      launchpad.reset();
-      launchpad.showColorPallette();
-      launchpad.addButtonListener(new MyListener(launchpad));
-      Gui gui = new Gui();
+   public static void main(String[] args) {
+
+      //IMPORTANTE deve essere chiamato all'apertura
+      DataManager dataManager = new DataManager();
+      dataManager.loadData();
 
 
+      Gui gui = new Gui(dataManager);
 
 
+      /*LaunchpadButton button = new LaunchpadButton();
+      button.setColumn(0);
+      button.setRow(0);
+      button.setLaunchpadColor(15);
+      button.setGuiColor(new ColorData(255, 0, 0));
+      button.setSound("ciao.wav");
+      Gson gson = new Gson();
+      String string = gson.toJson(button);
+      System.out.println(string);*/
 
       //1. Default constructor
       //Gson gson = new Gson();

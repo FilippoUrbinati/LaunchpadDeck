@@ -47,48 +47,7 @@ public class MyListener implements ButtonListener {
          soundPlayer.setVolume(0.2f);
          //soundPlayer.stop();
       }
-      if (row == 2 && colomn == 0) {
-         launchpad.setLedOn(colomn, row, 44);
-      }
-      if (row == 3 && colomn == 0) {
-         launchpad.setLedOn(colomn, row, 60);
-      }
-      if (row == 4 && colomn == 0) {
-         launchpad.setLedOn(colomn, row, 13);
-      }
-      if (row == 5 && colomn == 0) {
-         launchpad.setLedOn(colomn, row, 29);
-      }
-      if (row == 6 && colomn == 0) {
-         launchpad.setLedOn(colomn, row, 45);
-      }
-      if (row == 7 && colomn == 0) {
-         launchpad.setLedOn(colomn, row, 61);
-      }
-      if (row == 8 && colomn == 0) {
-         launchpad.setLedOn(colomn, row, 14);
-      }
-      if (row == 0 && colomn == 1) {
-         launchpad.setLedOn(colomn, row, 30);
-      }
-      if (row == 1 && colomn == 1) {
-         launchpad.setLedOn(colomn, row, 46);
-      }
-      if (row == 2 && colomn == 1) {
-         launchpad.setLedOn(colomn, row, 62);
-      }
-      if (row == 3 && colomn == 1) {
-         launchpad.setLedOn(colomn, row, 15);
-      }
-      if (row == 4 && colomn == 1) {
-         launchpad.setLedOn(colomn, row, 31);
-      }
-      if (row == 5 && colomn == 1) {
-         launchpad.setLedOn(colomn, row, 47);
-      }
-      if (row == 6 && colomn == 1) {
-         launchpad.setLedOn(colomn, row, 63);
-      }
+
 
 
 
