@@ -13,6 +13,7 @@ public class Gui extends JFrame {
       this.dataManager = dataManager;
 
       setLayout();
+      addFocusListener();
 
       setPreferredSize(new Dimension(495, 500));
       setLocation(500, 200);
@@ -78,8 +79,7 @@ public class Gui extends JFrame {
       for (int i = 1; i <= 8; i++) {      //row 1-8
          for (int ii = 0; ii < 8; ii++) {  //column 0-7
             CentralButton cb = new CentralButton(ii ,i, dataManager);
-
-            if (dataManager.exists(cb)) {
+            if (dataManager.exists(cb.getColumn(), cb.getRow())) {
                cb.setBackground(dataManager.getGuiColor());
             }
             addRightClickListener(cb);
@@ -88,6 +88,19 @@ public class Gui extends JFrame {
             counter++;
          }
       }
+   }
+
+   public void addFocusListener() {
+      addFocusListener(new FocusListener() {
+         @Override
+         public void focusLost(FocusEvent e) {
+
+         }
+         @Override
+         public void focusGained(FocusEvent e) {
+            setLayout();
+         }
+      });
    }
 
 

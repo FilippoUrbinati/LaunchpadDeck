@@ -7,47 +7,25 @@ import com.sinius15.launchpad.events.ButtonListener;
 public class MyListener implements ButtonListener {
 
    Launchpad launchpad;
-   SoundPlayer soundPlayer = new SoundPlayer("only-quality.wav");
+   DataManager dataManager;
+   SoundPlayer soundPlayer = new SoundPlayer();
 
-   public MyListener(Launchpad launchpad) {
+   public MyListener(Launchpad launchpad, DataManager dataManager) {
       this.launchpad = launchpad;
+      this.dataManager = dataManager;
    }
    boolean isActive;
    @Override
-   public void onButtonDown(int row, int colomn) {
+   public void onButtonDown(int row, int column) {
 
-      if (row == 0 && colomn == 0) {
-         if(isActive == false) {
-            System.out.println("now it's red");
-            launchpad.setLedOn(colomn, row, 12);
-            isActive = true;
-         } else {
-            System.out.println("now it's turned off");
-            launchpad.setLedOff(colomn, row);
-            isActive = false;
-         }
+      soundPlayer.setColumnRow(column, row);
+      if (soundPlayer.isRunning()) {
+         soundPlayer.stop();
+      } else {
 
-         try {
-            soundPlayer.play();
-         } catch (Exception e) {
-            e.printStackTrace();
-         }
+         soundPlayer.play(dataManager);
+         //soundPlayer.setVolume(0.2f);
       }
-      if (row == 1 && colomn == 0) {
-         if(isActive == false) {
-            System.out.println("now it's red");
-            launchpad.setLedOn(colomn, row, 28);
-            isActive = true;
-         } else {
-            System.out.println("now it's turned off");
-            launchpad.setLedOff(colomn, row);
-            isActive = false;
-         }
-
-         soundPlayer.setVolume(0.2f);
-         //soundPlayer.stop();
-      }
-
 
 
 

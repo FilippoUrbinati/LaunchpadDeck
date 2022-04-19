@@ -41,7 +41,7 @@ public class DataManager {
 
       launchpad.reset();
       //launchpad.showColorPallette();
-      //launchpad.addButtonListener(new MyListener(launchpad));
+      launchpad.addButtonListener(new MyListener(launchpad, this));
    }
 
    public void saveData() {
@@ -77,17 +77,23 @@ public class DataManager {
       buttonList.add(lb);
    }
 
-   public Color getGuiColor() {
-      return new Color(lb.getGuiColor().getRed(), lb.getGuiColor().getGreen(), lb.getGuiColor().getBlue());
-   }
-
-   public boolean exists(CentralButton button) {
+   public boolean exists(int column, int row) {
       for (LaunchpadButton lb : buttonList) {
-         if (lb.getColumn() == button.getColumn() && lb.getRow() == button.getRow()) {
+         if (lb.getColumn() == column && lb.getRow() == row) {
             this.lb = lb;
             return true;
          }
       }
       return false;
+   }
+
+   public Color getGuiColor() {
+      return new Color(lb.getGuiColor().getRed(), lb.getGuiColor().getGreen(), lb.getGuiColor().getBlue());
+   }
+   public String getSound() {
+      return lb.getSound();
+   }
+   public int getVolume() {
+      return lb.getVolume();
    }
 }
