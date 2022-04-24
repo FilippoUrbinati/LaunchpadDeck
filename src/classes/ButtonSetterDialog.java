@@ -215,7 +215,7 @@ public class ButtonSetterDialog extends JDialog {
       dataManager.saveData();
       //così setta anche il tasto nuovo
       dataManager.loadData();
-
+      dataManager.setLEDPage(page);
 
       //setta tasto
       //usa data manager

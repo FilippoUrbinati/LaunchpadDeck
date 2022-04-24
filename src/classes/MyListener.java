@@ -10,6 +10,8 @@ public class MyListener implements ButtonListener {
    DataManager dataManager;
    Gui gui;
 
+   int page = 1;
+
    SoundPlayer soundPlayer = new SoundPlayer();
 
    public MyListener(Launchpad launchpad, DataManager dataManager, Gui gui) {
@@ -25,19 +27,15 @@ public class MyListener implements ButtonListener {
 
       if (column == 8) {
          //turn off all buttons
-         for (int i = 1; i <= 8; i++) { //row from 1 to 8 to not change first row
-            for (int ii = 0; ii < 9; ii++) {
-               launchpad.setLedOff(ii, i);
-            }
-         }
+         page = row;
          gui.setPage(row);
-         gui.updateCentralPanel();
-         launchpad.setLedOn(column, row, Launchpad.COLOR_RED_FULL);
+         //gui.updateLaun(); //toglilo se no cambia la pagina anche nella gui
+         dataManager.setLEDPage(page);
       } else {
          dataManager.saveAudioDevice("ciao");
          dataManager.loadAudioDevice();
 
-         soundPlayer.setPageColumnRow(gui.getPage(), column, row);
+         soundPlayer.setPageColumnRow(page, column, row);
          if (soundPlayer.isRunning()) {
             soundPlayer.stop();
          } else {

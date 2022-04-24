@@ -10,11 +10,11 @@ public class Gui extends JFrame {
    DataManager dataManager;
    JPanel centralPanel = new JPanel(new GridLayout(8, 8, 10, 10));
 
-   int currentPage = 1;
    int page = 1;
 
    public Gui(DataManager dataManager) {
       this.dataManager = dataManager;
+      dataManager.setLEDPage(page);
 
       setLayout();
       addFocusListener();
@@ -60,15 +60,10 @@ public class Gui extends JFrame {
    }
 
    public void updateCentralPanel() {
-      if (currentPage != page) {
-         currentPage = page;
          centralPanel.removeAll();
          addCentralButtons(centralPanel);
          centralPanel.revalidate();
          centralPanel.repaint();//I don't know if it is necessary
-         System.out.println("sciao belo e' cambiata pagina");
-         dataManager.turnOnLED(page);
-      }
    }
 
    public void addTopButtons(JPanel panel) {
@@ -83,9 +78,24 @@ public class Gui extends JFrame {
    public void addRightButtons(JPanel panel) {
       ArrayList <CustomButton> buttonList = new ArrayList<CustomButton>();
       for (int i = 0; i < 8; i++) {
+         int pageNumber = i;
          CustomButton button = new CustomButton();
          button.setBorder(1, Color.BLACK);
          button.setRadius(100);//big number set maximum radius
+         if (i == 0) {
+            button.setBackground(LaunchpadColor.RED_FULL);
+         }
+         button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               page = pageNumber+1;
+               updateCentralPanel();
+               for (CustomButton cb : buttonList) {
+                  cb.setBackground(Color.WHITE);
+               }
+               button.setBackground(LaunchpadColor.RED_FULL);
+            }
+         });
          buttonList.add(button);
          panel.add(button);
       }

@@ -12,6 +12,8 @@ public class DataManager {
 
    Launchpad launchpad;
 
+   int page = 1;
+
    private ButtonId buttonId;
    private int launchpadColor;
    private ColorData guiColor;
@@ -53,12 +55,6 @@ public class DataManager {
          }
       } catch (IOException e) {
          e.printStackTrace();
-      }
-      //imposta i tasti
-      for (LaunchpadButton lb : buttonList) {
-         if (lb.getButtonId().getPage() == 1) {
-            launchpad.setLedOn(lb.getButtonId().getColumn(), lb.getButtonId().getRow(), lb.getLaunchpadColor());
-         }
       }
    }
 
@@ -124,12 +120,24 @@ public class DataManager {
       //return audioDevice;
    }
 
-   public void turnOnLED(int page) {
+   public void setLEDPage(int page) {
+      this.page = page;
+      //reset led
+      for (int i = 1; i <= 8; i++) { //row from 1 to 8 to not change first row
+         for (int ii = 0; ii < 9; ii++) {
+            launchpad.setLedOff(ii, i);
+         }
+      }
+      //turn on button in that page + right button page
       for (LaunchpadButton lb : buttonList) {
          if (lb.getButtonId().getPage() == page) {
             launchpad.setLedOn(lb.getButtonId().getColumn(), lb.getButtonId().getRow(), lb.getLaunchpadColor());
          }
       }
+      launchpad.setLedOn(8, page, Launchpad.COLOR_RED_FULL);
+   }
+   public int getActivePage() {
+      return page;
    }
 
 }

@@ -29,9 +29,10 @@ public class SoundPlayer {
       if (dataManager.exists(page, column, row)) {
          sound = dataManager.getSound() + ".wav";
 
-         Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
-         //Mixer.Info info = mixerInfo[7];
 
+         //mettilo solo quando viene premuto il pulsante dei setting
+         /*Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
+         //Mixer.Info info = mixerInfo[7];
          for (int i = 0; i < mixerInfo.length; i++){
             Mixer.Info info = mixerInfo[i];
             Line.Info outputLine = new Line.Info(SourceDataLine.class);
@@ -40,7 +41,7 @@ public class SoundPlayer {
                infoDevice = info;
                //System.out.println(info.getName());
             }
-         }
+         }*/
 
          try {
             clip = AudioSystem.getClip(infoDevice);
@@ -69,6 +70,7 @@ public class SoundPlayer {
    public void stop() {
       if (clip == null) return;
       clip.stop();
+      clip.flush();
       clip.close();
    }
 
