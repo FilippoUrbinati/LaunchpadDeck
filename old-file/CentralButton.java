@@ -10,9 +10,6 @@ public class CentralButton extends CustomButton {
 
    int column;
    int row;
-   int launchpadColor;
-   Color guiColor;
-   String sound;
 
    public CentralButton(int column, int row, DataManager dataManager) {
       this.column = column;
@@ -51,14 +48,5 @@ public class CentralButton extends CustomButton {
       this.row = row;
    }
 
-   public void setLaunchpadColor(int color) {
-      //imposta colore tasto launchpad
-   }
-   public void setGuiColor(Color color) {
-      setBackground(color);
-   }
-   public void setSound() {
-      this.sound = sound;
-   }
 
 }

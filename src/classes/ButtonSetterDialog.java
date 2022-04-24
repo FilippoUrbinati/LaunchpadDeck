@@ -10,6 +10,7 @@ public class ButtonSetterDialog extends JDialog {
 
    DataManager dataManager;
 
+   int page;
    int column;
    int row;
    int launchpadColor;
@@ -18,12 +19,14 @@ public class ButtonSetterDialog extends JDialog {
    int volume;
 
    boolean buttonAlreadyExists;
+   boolean saveData = false;
 
-   public ButtonSetterDialog(int column, int row, DataManager dataManager) {
+   public ButtonSetterDialog(int page, int column, int row, DataManager dataManager) {
+      this.page = page;
       this.column = column;
       this.row = row;
       this.dataManager = dataManager;
-      buttonAlreadyExists = dataManager.exists(column, row);
+      buttonAlreadyExists = dataManager.exists(page, column, row);
       setPreferredSize(new Dimension(350, 400));
       setLocation(150, 150);
       setModal(true);
@@ -154,7 +157,8 @@ public class ButtonSetterDialog extends JDialog {
       ok.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            closeOperation();
+            saveData = true;
+            dispose();
          }
       });
       JButton cancel = new  JButton("Cancel");
@@ -162,6 +166,7 @@ public class ButtonSetterDialog extends JDialog {
       cancel.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
+            saveData = false;
             dispose();
          }
       });
@@ -179,29 +184,8 @@ public class ButtonSetterDialog extends JDialog {
       return gbc;
    }
 
-   public void setColor(int counter) {
-      this.guiColor = LaunchpadColor.colors.get(counter);
-      this.launchpadColor = LaunchpadColor.colorsInt[counter];
-   }
-   public void setGuiColor(Color guiColor) {
-      this.guiColor = guiColor;
-   }
-   public void setLaunchpadColor(int launchpadColor) {
-      this.launchpadColor = launchpadColor;
-   }
-   public void setSound(String sound) {
-      this.sound = sound;
-   }
-   public void setVolume(int volume) {
-      this.volume = volume;
-   }
 
-
-
-   //on close dialog --> set color, sound and volume
-
-
-
+   //call when close dialog --> set color, sound and volume
    public void closeOperation() {
 
       if (guiColor == null) {
@@ -216,7 +200,6 @@ public class ButtonSetterDialog extends JDialog {
          setVolume(100);
       }
 
-
       //salva data
 
       //aggiugere un nuovo LaunchpadButton ad un array
@@ -224,9 +207,9 @@ public class ButtonSetterDialog extends JDialog {
 
       if (buttonAlreadyExists) {
          //rimuovi il json object
-         dataManager.removeButton(/*page,*/ column, row);
+         dataManager.removeButton(page, column, row);
       }
-      LaunchpadButton lb = new LaunchpadButton(toButtonId(/*page,*/ column, row), launchpadColor, toColorData(guiColor), sound, volume);
+      LaunchpadButton lb = new LaunchpadButton(toButtonId(page, column, row), launchpadColor, toColorData(guiColor), sound, volume);
       //aggiungi la pagina (1-8, tasti laterali)
       dataManager.addLaunchpadButton(lb);
       dataManager.saveData();
@@ -234,13 +217,8 @@ public class ButtonSetterDialog extends JDialog {
       dataManager.loadData();
 
 
-
-
-
       //setta tasto
       //usa data manager
-
-
 
       dispose();
 
@@ -275,9 +253,31 @@ public class ButtonSetterDialog extends JDialog {
    public ColorData toColorData(Color color) {
       return new ColorData(color.getRed(), color.getGreen(), color.getBlue());
    }
-   public ButtonId toButtonId(/*int page,*/ int column, int row) {
-      return new ButtonId(/*page,*/ column, row);
+   public ButtonId toButtonId(int page, int column, int row) {
+      return new ButtonId(page, column, row);
    }
 
+   public boolean saveData() {
+      if (saveData) {
+         return true;
+      }
+      return false;
+   }
 
+   public void setColor(int counter) {
+      this.guiColor = LaunchpadColor.colors.get(counter);
+      this.launchpadColor = LaunchpadColor.colorsInt[counter];
+   }
+   public void setGuiColor(Color guiColor) {
+      this.guiColor = guiColor;
+   }
+   public void setLaunchpadColor(int launchpadColor) {
+      this.launchpadColor = launchpadColor;
+   }
+   public void setSound(String sound) {
+      this.sound = sound;
+   }
+   public void setVolume(int volume) {
+      this.volume = volume;
+   }
 }

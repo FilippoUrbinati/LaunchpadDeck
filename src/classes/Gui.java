@@ -8,6 +8,10 @@ import java.util.*;
 public class Gui extends JFrame {
 
    DataManager dataManager;
+   JPanel centralPanel = new JPanel(new GridLayout(8, 8, 10, 10));
+
+   int currentPage = 1;
+   int page = 1;
 
    public Gui(DataManager dataManager) {
       this.dataManager = dataManager;
@@ -30,7 +34,7 @@ public class Gui extends JFrame {
       setLayout(new BorderLayout(12, 15));
       addTopPanel();
       addRightPanel();
-      addCentralPanel();
+      centralPanel();
    }
 
    public void addTopPanel() {
@@ -49,11 +53,22 @@ public class Gui extends JFrame {
       add(panel, BorderLayout.EAST);
    }
 
-   public void addCentralPanel() {
-      JPanel panel = new JPanel(new GridLayout(8, 8, 10, 10));
-      panel.setBackground(Color.GREEN);
-      addCentralButtons(panel);
-      add(panel, BorderLayout.CENTER);
+   public void centralPanel() {
+      centralPanel.setBackground(Color.GREEN);
+      addCentralButtons(centralPanel);
+      add(centralPanel, BorderLayout.CENTER);
+   }
+
+   public void updateCentralPanel() {
+      if (currentPage != page) {
+         currentPage = page;
+         centralPanel.removeAll();
+         addCentralButtons(centralPanel);
+         centralPanel.revalidate();
+         centralPanel.repaint();//I don't know if it is necessary
+         System.out.println("sciao belo e' cambiata pagina");
+         dataManager.turnOnLED(page);
+      }
    }
 
    public void addTopButtons(JPanel panel) {
@@ -66,29 +81,61 @@ public class Gui extends JFrame {
    }
 
    public void addRightButtons(JPanel panel) {
-      ArrayList <RightButton> buttonList = new ArrayList<RightButton>();
+      ArrayList <CustomButton> buttonList = new ArrayList<CustomButton>();
       for (int i = 0; i < 8; i++) {
-         buttonList.add(new RightButton(i+1));
-         panel.add(buttonList.get(i));
+         CustomButton button = new CustomButton();
+         button.setBorder(1, Color.BLACK);
+         button.setRadius(100);//big number set maximum radius
+         buttonList.add(button);
+         panel.add(button);
       }
    }
 
    public void addCentralButtons(JPanel panel) {
-      ArrayList <CentralButton> buttonList = new ArrayList<CentralButton>();
+      ArrayList <CustomButton> buttonList = new ArrayList<CustomButton>();
       int counter = 0;
       for (int i = 1; i <= 8; i++) {      //row 1-8
          for (int ii = 0; ii < 8; ii++) {  //column 0-7
-            CentralButton cb = new CentralButton(ii ,i, dataManager);
-            if (dataManager.exists(cb.getColumn(), cb.getRow())) {
+            CustomButton cb = new CustomButton();
+            cb.setBorder(1, Color.BLACK);
+            int column = ii;
+            int row = i;
+            cb.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+                  ButtonSetterDialog dialog = new ButtonSetterDialog(page, column, row, dataManager);
+                  dialog.addWindowListener(new WindowAdapter() {
+                     @Override
+                     public void windowClosed(WindowEvent e) {
+                        if (dialog.saveData()) {
+                           dialog.closeOperation();
+                           //ricarica panel central buttons
+                           updateCentralPanel();
+                        }
+                     }
+                  });
+               }
+            });
+            if (dataManager.exists(page, ii, i)) {
                cb.setBackground(dataManager.getGuiColor());
             }
-            addRightClickListener(cb);
+            //addRightClickListener(cb);
             buttonList.add(cb);
-            panel.add(buttonList.get(counter));
+            panel.add(cb);
             counter++;
          }
       }
+
+
    }
+
+   public void setPage(int page) {
+      this.page = page;
+   }
+   public int getPage( ) {
+      return this.page;
+   }
+
 
    public void addFocusListener() {
       addFocusListener(new FocusListener() {
@@ -111,17 +158,17 @@ public class Gui extends JFrame {
    *
    *
    * bisogna creare un modo per switchare completamente tutto il pulsante
+   * !!!NOT WORKING!!!
+   * ora si usa custom button che non ha column e row
    *
    *
-   *
-   */
    //Switch function with the right click
    int columnFirst;
    int rowFirst;
-   CentralButton firstButton;
+   CustomButton firstButton;
    boolean isFirst = true;
    //method to add the listener
-   public void addRightClickListener(CentralButton button) {
+   public void addRightClickListener(CustomButton button) {
       button.addMouseListener(new MouseAdapter() {
          @Override
          public void mouseClicked(MouseEvent e) {
@@ -135,7 +182,7 @@ public class Gui extends JFrame {
       });
    }
    //method which actually switch
-   public void switchButton(CentralButton button) {
+   public void switchButton(CustomButton button) {
       if (isFirst) {
          firstButton = button;
          isFirst = false;
@@ -148,6 +195,6 @@ public class Gui extends JFrame {
          button.setRow(rowFirst);
          isFirst = true;
       }
-   }
+   }*/
 
 }

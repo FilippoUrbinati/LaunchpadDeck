@@ -8,6 +8,7 @@ public class SoundPlayer {
    String sound;
    FloatControl gainControl;
 
+   int page;
    int column;
    int row;
    Mixer.Info infoDevice;
@@ -25,7 +26,7 @@ public class SoundPlayer {
    }
 
    public void play(DataManager dataManager) {
-      if (dataManager.exists(column, row)) {
+      if (dataManager.exists(page, column, row)) {
          sound = dataManager.getSound() + ".wav";
 
          Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
@@ -75,7 +76,8 @@ public class SoundPlayer {
       return clip.isRunning();
    }
 
-   public void setColumnRow(int column, int row) {
+   public void setPageColumnRow(int page, int column, int row) {
+      this.page = page;
       this.column = column;
       this.row = row;
    }

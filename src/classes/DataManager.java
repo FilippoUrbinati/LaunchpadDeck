@@ -5,7 +5,6 @@ import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
 import com.sinius15.launchpad.*;
-import javax.sound.midi.MidiUnavailableException;
 import com.google.gson.*;
 import com.google.gson.reflect.*;
 
@@ -28,20 +27,8 @@ public class DataManager {
    FileReader reader;
    Gson gson = new Gson();
 
-   public DataManager() {
-      try {
-         launchpad = new Launchpad("Launchpad Mini");
-         launchpad.open();
-      } catch(LaunchpadException e) {
-         e.printStackTrace();
-      } catch(MidiUnavailableException e) {
-         e.printStackTrace();
-      }
-      System.out.println("Connection: " + launchpad.isConnected());
-
-      launchpad.reset();
-      //launchpad.showColorPallette();
-      launchpad.addButtonListener(new MyListener(launchpad, this));
+   public DataManager(Launchpad launchpad) {
+      this.launchpad = launchpad;
    }
 
    public void saveData() {
@@ -69,7 +56,9 @@ public class DataManager {
       }
       //imposta i tasti
       for (LaunchpadButton lb : buttonList) {
-         launchpad.setLedOn(lb.getButtonId().getColumn(), lb.getButtonId().getRow(), lb.getLaunchpadColor());
+         if (lb.getButtonId().getPage() == 1) {
+            launchpad.setLedOn(lb.getButtonId().getColumn(), lb.getButtonId().getRow(), lb.getLaunchpadColor());
+         }
       }
    }
 
@@ -77,9 +66,9 @@ public class DataManager {
    public void addLaunchpadButton(LaunchpadButton lb) {
       buttonList.add(lb);
    }
-   public void removeButton(/*int page,*/ int column, int row) {
+   public void removeButton(int page, int column, int row) {
       for (LaunchpadButton lb : buttonList) {
-         if (/*lb.getButtonId.getPage() == page && */lb.getButtonId().getColumn() == column && lb.getButtonId().getRow() == row) {
+         if (lb.getButtonId().getPage() == page && lb.getButtonId().getColumn() == column && lb.getButtonId().getRow() == row) {
             buttonList.remove(lb);
             return;
          }
@@ -87,9 +76,9 @@ public class DataManager {
    }
 
 
-   public boolean exists(int column, int row) {
+   public boolean exists(int page, int column, int row) {
       for (LaunchpadButton lb : buttonList) {
-         if (lb.getButtonId().getColumn() == column && lb.getButtonId().getRow() == row) {
+         if (lb.getButtonId().getPage() == page && lb.getButtonId().getColumn() == column && lb.getButtonId().getRow() == row) {
             this.lb = lb;
             return true;
          }
@@ -135,6 +124,12 @@ public class DataManager {
       //return audioDevice;
    }
 
-
+   public void turnOnLED(int page) {
+      for (LaunchpadButton lb : buttonList) {
+         if (lb.getButtonId().getPage() == page) {
+            launchpad.setLedOn(lb.getButtonId().getColumn(), lb.getButtonId().getRow(), lb.getLaunchpadColor());
+         }
+      }
+   }
 
 }

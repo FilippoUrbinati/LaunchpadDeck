@@ -2,22 +2,22 @@ package classes;
 
 public class ButtonId {
 
-   //private int page;
+   private int page;
    private int column;
    private int row;
 
-   public ButtonId(/*int page,*/ int column, int row) {
-      //this.page = page;
+   public ButtonId(int page, int column, int row) {
+      this.page = page;
       this.column = column;
       this.row = row;
    }
 
-   /*public int getPage() {
+   public int getPage() {
       return this.page;
    }
    public void setPage(int page) {
       this.page = page;
-   }*/
+   }
    public int getColumn() {
       return this.column;
    }
