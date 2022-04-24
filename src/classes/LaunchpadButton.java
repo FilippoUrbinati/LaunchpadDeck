@@ -2,33 +2,25 @@ package classes;
 
 public class LaunchpadButton {
 
-   private int column;
-   private int row;
+   private ButtonId buttonId;
    private int launchpadColor;
    private ColorData guiColor;
    private String sound;
    private int volume;
 
-   public LaunchpadButton(int column, int row, int launchpadColor, ColorData guiColor, String sound, int volume) {
-      this.column = column;
-      this.row = row;
+   public LaunchpadButton(ButtonId buttonId, int launchpadColor, ColorData guiColor, String sound, int volume) {
+      this.buttonId = buttonId;
       this.launchpadColor = launchpadColor;
       this.guiColor = guiColor;
       this.sound = sound;
       this.volume = volume;
    }
 
-   public int getColumn() {
-      return this.column;
+   public ButtonId getButtonId() {
+      return this.buttonId;
    }
-   public void setColumn(int column) {
-      this.column = column;
-   }
-   public int getRow() {
-      return this.row;
-   }
-   public void setRow(int row) {
-      this.row = row;
+   public void setButtonId(ButtonId buttonId) {
+      this.buttonId = buttonId;
    }
    public int getLaunchpadColor() {
       return this.launchpadColor;

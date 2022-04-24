@@ -62,7 +62,7 @@ public class Gui extends JFrame {
          buttonList.add(new TopButton(i));
          panel.add(buttonList.get(i));
       }
-      panel.add(new SettingsButton());
+      panel.add(new SettingsButton(dataManager));
    }
 
    public void addRightButtons(JPanel panel) {

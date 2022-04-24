@@ -12,7 +12,6 @@ public class ColorData {
       this.blue = blue;
    }
 
-
    public int getRed() {
       return this.red;
    }

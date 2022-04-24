@@ -17,10 +17,13 @@ public class ButtonSetterDialog extends JDialog {
    String sound;
    int volume;
 
+   boolean buttonAlreadyExists;
+
    public ButtonSetterDialog(int column, int row, DataManager dataManager) {
       this.column = column;
       this.row = row;
       this.dataManager = dataManager;
+      buttonAlreadyExists = dataManager.exists(column, row);
       setPreferredSize(new Dimension(350, 400));
       setLocation(150, 150);
       setModal(true);
@@ -42,12 +45,16 @@ public class ButtonSetterDialog extends JDialog {
    }
 
    public void addColorPanel() {
-
       JPanel panel = new JPanel(new GridBagLayout());
       JLabel label = new JLabel("Choose color:");
       JPanel buttonPanel = new JPanel(new GridLayout(4, 4));
       JPanel square = new JPanel();
       square.setPreferredSize(new Dimension(50, 50));
+      if (buttonAlreadyExists) {
+         setGuiColor(dataManager.getGuiColor());
+         setLaunchpadColor(dataManager.getLaunchpadColor());
+         square.setBackground(guiColor);
+      }
       int counter = 0;
       for (int i = 0; i < 4; i++) {
          for (int ii = 0; ii < 4; ii++) {
@@ -77,6 +84,10 @@ public class ButtonSetterDialog extends JDialog {
       JPanel panel = new JPanel(new GridBagLayout());
       JLabel label = new JLabel("Type the sound name:");
       JTextField textField = new JTextField();
+      if (buttonAlreadyExists) {
+         setSound(dataManager.getSound());
+         textField.setText(sound);
+      }
       textField.setPreferredSize(new Dimension(120, 20));
       textField.addFocusListener(new FocusListener() {
          @Override
@@ -100,7 +111,13 @@ public class ButtonSetterDialog extends JDialog {
       JLabel label = new JLabel("Volume");
       JSlider slider = new JSlider(0, 100);
       JTextField textField = new JTextField();
-      slider.setValue(100);
+      if (buttonAlreadyExists) {
+         setVolume(dataManager.getVolume());
+         textField.setText(Integer.toString(volume));
+         slider.setValue(volume);
+      } else {
+         slider.setValue(100);
+      }
       slider.addChangeListener(new ChangeListener() {
          @Override
          public void stateChanged(ChangeEvent e) {
@@ -166,6 +183,12 @@ public class ButtonSetterDialog extends JDialog {
       this.guiColor = LaunchpadColor.colors.get(counter);
       this.launchpadColor = LaunchpadColor.colorsInt[counter];
    }
+   public void setGuiColor(Color guiColor) {
+      this.guiColor = guiColor;
+   }
+   public void setLaunchpadColor(int launchpadColor) {
+      this.launchpadColor = launchpadColor;
+   }
    public void setSound(String sound) {
       this.sound = sound;
    }
@@ -192,8 +215,6 @@ public class ButtonSetterDialog extends JDialog {
       if (volume == 0) {
          setVolume(100);
       }
-      sound += ".wav";
-
 
 
       //salva data
@@ -201,8 +222,11 @@ public class ButtonSetterDialog extends JDialog {
       //aggiugere un nuovo LaunchpadButton ad un array
       //e dopo salvare i dati
 
-
-      LaunchpadButton lb = new LaunchpadButton(column, row, launchpadColor, toColorData(guiColor), sound, volume);
+      if (buttonAlreadyExists) {
+         //rimuovi il json object
+         dataManager.removeButton(/*page,*/ column, row);
+      }
+      LaunchpadButton lb = new LaunchpadButton(toButtonId(/*page,*/ column, row), launchpadColor, toColorData(guiColor), sound, volume);
       //aggiungi la pagina (1-8, tasti laterali)
       dataManager.addLaunchpadButton(lb);
       dataManager.saveData();
@@ -251,4 +275,9 @@ public class ButtonSetterDialog extends JDialog {
    public ColorData toColorData(Color color) {
       return new ColorData(color.getRed(), color.getGreen(), color.getBlue());
    }
+   public ButtonId toButtonId(/*int page,*/ int column, int row) {
+      return new ButtonId(/*page,*/ column, row);
+   }
+
+
 }

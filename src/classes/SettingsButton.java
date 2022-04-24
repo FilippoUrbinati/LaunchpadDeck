@@ -7,7 +7,10 @@ import javax.imageio.ImageIO;
 
 public class SettingsButton extends JButton {
 
-   public SettingsButton() {
+   DataManager dataManager;
+
+   public SettingsButton(DataManager dataManager) {
+      this.dataManager = dataManager;
       try {
          Image img = ImageIO.read(getClass().getResource("../res/settings.png"));
          Image icon = img.getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
@@ -28,7 +31,11 @@ public class SettingsButton extends JButton {
          @Override
          public void mouseClicked(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1) {
-               //apri schermata settings
+               //apri tendina
+
+
+               //on click di ogni elemento
+               dataManager.saveAudioDevice("ciao");
                System.out.println("questo e' il settings button");
             }
          }

@@ -18,6 +18,9 @@ public class MyListener implements ButtonListener {
    @Override
    public void onButtonDown(int row, int column) {
 
+      dataManager.saveAudioDevice("ciao");
+      dataManager.loadAudioDevice();
+
       soundPlayer.setColumnRow(column, row);
       if (soundPlayer.isRunning()) {
          soundPlayer.stop();

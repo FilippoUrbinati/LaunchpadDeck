@@ -13,8 +13,7 @@ public class DataManager {
 
    Launchpad launchpad;
 
-   private int column;
-   private int row;
+   private ButtonId buttonId;
    private int launchpadColor;
    private ColorData guiColor;
    private String sound;
@@ -24,6 +23,7 @@ public class DataManager {
    LaunchpadButton lb;
 
    private String location = "./data.json";
+   private String locationAudio = "./audio-output.json";
    FileWriter writer;
    FileReader reader;
    Gson gson = new Gson();
@@ -51,6 +51,7 @@ public class DataManager {
          writer.close();
       } catch (IOException e) {
          e.printStackTrace();
+         e.printStackTrace();
       }
    }
 
@@ -68,7 +69,7 @@ public class DataManager {
       }
       //imposta i tasti
       for (LaunchpadButton lb : buttonList) {
-         launchpad.setLedOn(lb.getColumn(), lb.getRow(), lb.getLaunchpadColor());
+         launchpad.setLedOn(lb.getButtonId().getColumn(), lb.getButtonId().getRow(), lb.getLaunchpadColor());
       }
    }
 
@@ -76,10 +77,19 @@ public class DataManager {
    public void addLaunchpadButton(LaunchpadButton lb) {
       buttonList.add(lb);
    }
+   public void removeButton(/*int page,*/ int column, int row) {
+      for (LaunchpadButton lb : buttonList) {
+         if (/*lb.getButtonId.getPage() == page && */lb.getButtonId().getColumn() == column && lb.getButtonId().getRow() == row) {
+            buttonList.remove(lb);
+            return;
+         }
+      }
+   }
+
 
    public boolean exists(int column, int row) {
       for (LaunchpadButton lb : buttonList) {
-         if (lb.getColumn() == column && lb.getRow() == row) {
+         if (lb.getButtonId().getColumn() == column && lb.getButtonId().getRow() == row) {
             this.lb = lb;
             return true;
          }
@@ -90,10 +100,41 @@ public class DataManager {
    public Color getGuiColor() {
       return new Color(lb.getGuiColor().getRed(), lb.getGuiColor().getGreen(), lb.getGuiColor().getBlue());
    }
+   public int getLaunchpadColor() {
+      return lb.getLaunchpadColor();
+   }
    public String getSound() {
       return lb.getSound();
    }
    public int getVolume() {
       return lb.getVolume();
    }
+
+   public void saveAudioDevice(String audioDevice) {
+      //imposta audio device
+      try {
+         writer = new FileWriter(locationAudio);
+         writer.write(audioDevice);
+         writer.close();
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
+
+   public void loadAudioDevice() {
+      //carica audio device
+      String audioDevice;
+      char[] array = new char[50];
+      try {
+         reader = new FileReader(locationAudio);
+         reader.read(array);
+         System.out.println(array);
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+      //return audioDevice;
+   }
+
+
+
 }

@@ -10,6 +10,7 @@ public class SoundPlayer {
 
    int column;
    int row;
+   Mixer.Info infoDevice;
 
 
 
@@ -25,11 +26,34 @@ public class SoundPlayer {
 
    public void play(DataManager dataManager) {
       if (dataManager.exists(column, row)) {
-         sound = dataManager.getSound();
+         sound = dataManager.getSound() + ".wav";
+
+         Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
+         //Mixer.Info info = mixerInfo[7];
+
+         for (int i = 0; i < mixerInfo.length; i++){
+            Mixer.Info info = mixerInfo[i];
+            Line.Info outputLine = new Line.Info(SourceDataLine.class);
+            Mixer mixer = AudioSystem.getMixer(info);
+            if (mixer.isLineSupported(outputLine) && info.getName() == "Altoparlanti (BEHRINGER USB WDM AUDIO 2.8.40)") {
+               infoDevice = info;
+               //System.out.println(info.getName());
+            }
+         }
+
          try {
+            clip = AudioSystem.getClip(infoDevice);
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("../sounds/" + sound));
             clip.open(inputStream);
             gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+
+            //clip.open(inputStream);
+            //clip = AudioSystem.getClip(info);
+
+
+
+
 
             clip.setFramePosition(0);
             clip.start();
