@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
+import javax.imageio.ImageIO;
 
 public class ButtonSetterDialog extends JDialog {
 
@@ -20,6 +21,7 @@ public class ButtonSetterDialog extends JDialog {
 
    boolean buttonAlreadyExists;
    boolean saveData = false;
+   boolean removeData = false;
 
    public ButtonSetterDialog(int page, int column, int row, DataManager dataManager) {
       this.page = page;
@@ -31,9 +33,9 @@ public class ButtonSetterDialog extends JDialog {
       setLocation(150, 150);
       setModal(true);
       setResizable(false);
-      //togli setAlwaysOnTops
+      /**/
       setAlwaysOnTop(true);
-      //
+      /**/
       setLayout();
       pack();
       setVisible(true);
@@ -158,6 +160,8 @@ public class ButtonSetterDialog extends JDialog {
          @Override
          public void actionPerformed(ActionEvent e) {
             saveData = true;
+            removeData = false;
+            saveButton();
             dispose();
          }
       });
@@ -167,12 +171,36 @@ public class ButtonSetterDialog extends JDialog {
          @Override
          public void actionPerformed(ActionEvent e) {
             saveData = false;
+            removeData = false;
+            dispose();
+         }
+      });
+      JButton delete = new  JButton();
+      try {
+         Image img = ImageIO.read(getClass().getResource("../res/delete-button.png"));
+         Image icon = img.getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
+         delete.setIcon(new ImageIcon(icon));
+      } catch (Exception ex) {
+         System.out.println(ex);
+         ex.printStackTrace();
+      }
+      delete.setPreferredSize(new Dimension(35, 40));
+      delete.setContentAreaFilled(false);
+      delete.setBorderPainted(false);
+      setFocusable(false);
+      delete.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            removeData = true;
+            removeButton();
             dispose();
          }
       });
       panel.add(ok);
       panel.add(Box.createRigidArea(new Dimension(15, 0)));
       panel.add(cancel);
+      panel.add(Box.createRigidArea(new Dimension(15, 0)));
+      panel.add(delete);
       this.add(panel);
    }
 
@@ -184,10 +212,10 @@ public class ButtonSetterDialog extends JDialog {
       return gbc;
    }
 
-
    //call when close dialog --> set color, sound and volume
-   public void closeOperation() {
-
+   public void saveButton() {
+      //if OK button not pressed --> return
+      if (!saveData) return;
       if (guiColor == null) {
          colorNotChoosed();
          return;
@@ -199,30 +227,29 @@ public class ButtonSetterDialog extends JDialog {
       if (volume == 0) {
          setVolume(100);
       }
-
-      //salva data
-
-      //aggiugere un nuovo LaunchpadButton ad un array
-      //e dopo salvare i dati
-
       if (buttonAlreadyExists) {
-         //rimuovi il json object
+         //replace button with new infos
          dataManager.removeButton(page, column, row);
       }
       LaunchpadButton lb = new LaunchpadButton(toButtonId(page, column, row), launchpadColor, toColorData(guiColor), sound, volume);
-      //aggiungi la pagina (1-8, tasti laterali)
       dataManager.addLaunchpadButton(lb);
       dataManager.saveData();
-      //così setta anche il tasto nuovo
-      dataManager.loadData();
-      dataManager.setLEDPage(page);
+      //dataManager.loadData();
+      if (dataManager.getPage() == page) {
+         dataManager.setLEDPage(page);
+      }
+   }
 
-      //setta tasto
-      //usa data manager
-
-      dispose();
-
-
+   public void removeButton() {
+      //if DELETE button not pressed --> return
+      if (!removeData) return;
+      if (dataManager.exists(page, column, row)) {
+         dataManager.removeButton(page, column, row);
+         dataManager.saveData();
+      }
+      if (dataManager.getPage() == page) {
+         dataManager.setLEDPage(page);
+      }
    }
 
    public void colorNotChoosed() {
@@ -257,13 +284,6 @@ public class ButtonSetterDialog extends JDialog {
       return new ButtonId(page, column, row);
    }
 
-   public boolean saveData() {
-      if (saveData) {
-         return true;
-      }
-      return false;
-   }
-
    public void setColor(int counter) {
       this.guiColor = LaunchpadColor.colors.get(counter);
       this.launchpadColor = LaunchpadColor.colorsInt[counter];
@@ -280,4 +300,5 @@ public class ButtonSetterDialog extends JDialog {
    public void setVolume(int volume) {
       this.volume = volume;
    }
+
 }

@@ -24,9 +24,11 @@ public class DataManager {
    LaunchpadButton lb;
 
    private String location = "./data.json";
-   private String locationAudio = "./audio-output.json";
+   private String locationAudio = "./audio-output.txt";
+   private File fileAudioLocation = new File("./audio-output.txt");
    FileWriter writer;
    FileReader reader;
+   BufferedReader readerb;
    Gson gson = new Gson();
 
    public DataManager(Launchpad launchpad) {
@@ -45,7 +47,7 @@ public class DataManager {
    }
 
    public void loadData() {
-      //riempi ArrayList
+      //fill ArrayList
       try {
          reader = new FileReader(location);
          Type listType = new TypeToken<ArrayList<LaunchpadButton>>(){}.getType();
@@ -70,7 +72,6 @@ public class DataManager {
          }
       }
    }
-
 
    public boolean exists(int page, int column, int row) {
       for (LaunchpadButton lb : buttonList) {
@@ -106,25 +107,27 @@ public class DataManager {
       }
    }
 
-   public void loadAudioDevice() {
-      //carica audio device
+   public String loadAudioDevice() {
       String audioDevice;
-      char[] array = new char[50];
       try {
-         reader = new FileReader(locationAudio);
-         reader.read(array);
-         System.out.println(array);
+         readerb = new BufferedReader(new FileReader(fileAudioLocation));
+         audioDevice = readerb.readLine();
+         if (audioDevice == null) {
+            return "Driver audio principale";
+         } else {
+            return audioDevice;
+         }
       } catch (IOException e) {
          e.printStackTrace();
       }
-      //return audioDevice;
+      return "Driver audio principale";
    }
 
    public void setLEDPage(int page) {
       this.page = page;
       //reset led
       for (int i = 1; i <= 8; i++) { //row from 1 to 8 to not change first row
-         for (int ii = 0; ii < 9; ii++) {
+         for (int ii = 0; ii <= 8; ii++) {
             launchpad.setLedOff(ii, i);
          }
       }
@@ -136,8 +139,15 @@ public class DataManager {
       }
       launchpad.setLedOn(8, page, Launchpad.COLOR_RED_FULL);
    }
-   public int getActivePage() {
+   public int getPage() {
       return page;
+   }
+   public void turnOffLed() {
+      for (int i = 1; i <= 8; i++) { //row from 1 to 8 to not change first row
+         for (int ii = 0; ii <= 8; ii++) {
+            launchpad.setLedOff(ii, i);
+         }
+      }
    }
 
 }

@@ -11,7 +11,9 @@ public class SoundPlayer {
    int page;
    int column;
    int row;
-   Mixer.Info infoDevice;
+   String infoName = "Driver audio principale";
+   String currentInfoName = " ";
+   Mixer.Info infoOutput;
 
 
 
@@ -27,24 +29,14 @@ public class SoundPlayer {
 
    public void play(DataManager dataManager) {
       if (dataManager.exists(page, column, row)) {
-         sound = dataManager.getSound() + ".wav";
-
-
-         //mettilo solo quando viene premuto il pulsante dei setting
-         /*Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
-         //Mixer.Info info = mixerInfo[7];
-         for (int i = 0; i < mixerInfo.length; i++){
-            Mixer.Info info = mixerInfo[i];
-            Line.Info outputLine = new Line.Info(SourceDataLine.class);
-            Mixer mixer = AudioSystem.getMixer(info);
-            if (mixer.isLineSupported(outputLine) && info.getName() == "Altoparlanti (BEHRINGER USB WDM AUDIO 2.8.40)") {
-               infoDevice = info;
-               //System.out.println(info.getName());
-            }
-         }*/
-
          try {
-            clip = AudioSystem.getClip(infoDevice);
+            sound = dataManager.getSound() + ".wav";
+
+            infoName = dataManager.loadAudioDevice();
+            if (currentInfoName != infoName) {
+               updateInfo();
+               clip = AudioSystem.getClip(infoOutput);
+            }
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("../sounds/" + sound));
             clip.open(inputStream);
             gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -52,10 +44,6 @@ public class SoundPlayer {
 
             //clip.open(inputStream);
             //clip = AudioSystem.getClip(info);
-
-
-
-
 
             clip.setFramePosition(0);
             clip.start();
@@ -65,6 +53,22 @@ public class SoundPlayer {
          }
       }
 
+   }
+
+   public void updateInfo() {
+      Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
+      for (int i = 0; i < mixerInfo.length; i++){
+         Mixer.Info info = mixerInfo[i];
+         Line.Info outputLine = new Line.Info(SourceDataLine.class);
+         Mixer mixer = AudioSystem.getMixer(info);
+         if (mixer.isLineSupported(outputLine)) {
+            if (info.getName().equals(infoName)) {
+               currentInfoName = infoName;
+               infoOutput = info;
+               return;
+            }
+         }
+      }
    }
 
    public void stop() {

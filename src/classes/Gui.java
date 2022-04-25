@@ -16,16 +16,15 @@ public class Gui extends JFrame {
       this.dataManager = dataManager;
       dataManager.setLEDPage(page);
 
-      setLayout();
-      addFocusListener();
-
       setPreferredSize(new Dimension(495, 500));
       setLocation(500, 200);
       setResizable(false);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+      setLayout();
+      addWindowListener();
+      /**/
       setAlwaysOnTop(true);
-
+      /**/
       pack();
       setVisible(true);
    }
@@ -38,11 +37,11 @@ public class Gui extends JFrame {
    }
 
    public void addTopPanel() {
-       JPanel panel = new JPanel(new GridLayout(1,8,10,10));
-       panel.setBackground(Color.RED);
-       panel.setPreferredSize(new Dimension(getWidth(), 42));
-       addTopButtons(panel);
-       add(panel, BorderLayout.NORTH);
+      JPanel panel = new JPanel(new GridLayout(1,8,10,10));
+      panel.setBackground(Color.RED);
+      panel.setPreferredSize(new Dimension(getWidth(), 42));
+      addTopButtons(panel);
+      add(panel, BorderLayout.NORTH);
    }
 
    public void addRightPanel() {
@@ -60,10 +59,10 @@ public class Gui extends JFrame {
    }
 
    public void updateCentralPanel() {
-         centralPanel.removeAll();
-         addCentralButtons(centralPanel);
-         centralPanel.revalidate();
-         centralPanel.repaint();//I don't know if it is necessary
+      centralPanel.removeAll();
+      addCentralButtons(centralPanel);
+      centralPanel.revalidate();
+      centralPanel.repaint();
    }
 
    public void addTopButtons(JPanel panel) {
@@ -117,11 +116,7 @@ public class Gui extends JFrame {
                   dialog.addWindowListener(new WindowAdapter() {
                      @Override
                      public void windowClosed(WindowEvent e) {
-                        if (dialog.saveData()) {
-                           dialog.closeOperation();
-                           //ricarica panel central buttons
-                           updateCentralPanel();
-                        }
+                        updateCentralPanel();
                      }
                   });
                }
@@ -129,7 +124,6 @@ public class Gui extends JFrame {
             if (dataManager.exists(page, ii, i)) {
                cb.setBackground(dataManager.getGuiColor());
             }
-            //addRightClickListener(cb);
             buttonList.add(cb);
             panel.add(cb);
             counter++;
@@ -146,20 +140,14 @@ public class Gui extends JFrame {
       return this.page;
    }
 
-
-   public void addFocusListener() {
-      addFocusListener(new FocusListener() {
+   public void addWindowListener() {
+      addWindowListener(new WindowAdapter() {
          @Override
-         public void focusLost(FocusEvent e) {
-
-         }
-         @Override
-         public void focusGained(FocusEvent e) {
-            setLayout();
+         public void windowClosing(WindowEvent e) {
+            dataManager.turnOffLed();
          }
       });
    }
-
 
 
 

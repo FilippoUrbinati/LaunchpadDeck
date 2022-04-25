@@ -15,6 +15,7 @@ public class Main {
 
       //create dataManager object and the gui
       DataManager dataManager = new DataManager(launchpad);
+      //IMPORTANT it must be called
       dataManager.loadData();
       Gui gui = new Gui(dataManager);
 
@@ -22,42 +23,9 @@ public class Main {
       launchpad.addButtonListener(new MyListener(launchpad, dataManager, gui));
       launchpad.setLedOn(8, 1, Launchpad.COLOR_RED_FULL);
 
-      //IMPORTANTE deve essere chiamato all'apertura
 
 
 
-
-
-
-      /*LaunchpadButton button = new LaunchpadButton();
-      button.setColumn(0);
-      button.setRow(0);
-      button.setLaunchpadColor(15);
-      button.setGuiColor(new ColorData(255, 0, 0));
-      button.setSound("ciao.wav");
-      Gson gson = new Gson();
-      String string = gson.toJson(button);
-      System.out.println(string);*/
-
-      //1. Default constructor
-      //Gson gson = new Gson();
-
-      //2. Using GsonBuilder
-      /*Gson gson = new GsonBuilder()
-                     .disableHtmlEscaping()
-                     .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                     .setPrettyPrinting()
-                     .serializeNulls()
-                     .create();
-
-
-      Employee employee = new Employee();
-      employee.setId(1);
-      employee.setFirstName("Lokesh");
-      employee.setLastName("Gupta");
-
-
-      System.out.println(gson.toJson(employee));*/
    }
 
 

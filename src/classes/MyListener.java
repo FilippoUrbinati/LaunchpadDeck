@@ -32,8 +32,8 @@ public class MyListener implements ButtonListener {
          //gui.updateLaun(); //toglilo se no cambia la pagina anche nella gui
          dataManager.setLEDPage(page);
       } else {
-         dataManager.saveAudioDevice("ciao");
-         dataManager.loadAudioDevice();
+         /*dataManager.saveAudioDevice("ciao");
+         dataManager.loadAudioDevice();*/
 
          soundPlayer.setPageColumnRow(page, column, row);
          if (soundPlayer.isRunning()) {
