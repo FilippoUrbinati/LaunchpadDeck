@@ -47,7 +47,7 @@ public class SoundPlayer {
 
             clip.setFramePosition(0);
             clip.start();
-            setVolume(dataManager.getVolume());
+            setVolume((float) dataManager.getVolume()/100);
          } catch (Exception e) {
             e.printStackTrace();
          }
@@ -73,6 +73,7 @@ public class SoundPlayer {
 
    public void stop() {
       if (clip == null) return;
+      setVolume(0f);
       clip.stop();
       clip.flush();
       clip.close();

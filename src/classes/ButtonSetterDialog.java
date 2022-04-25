@@ -63,13 +63,14 @@ public class ButtonSetterDialog extends JDialog {
       int counter = 0;
       for (int i = 0; i < 4; i++) {
          for (int ii = 0; ii < 4; ii++) {
-            ColorButton button = new ColorButton(counter);
+            JButton button = new JButton();
             button.setPreferredSize(new Dimension(20,20));
             button.setBackground(LaunchpadColor.colors.get(counter));
+            int colorValue = counter;
             button.addActionListener(new ActionListener() {
                @Override
                public void actionPerformed(ActionEvent e) {
-                  setColor(button.getValue());
+                  setColor(colorValue);
                   square.setBackground(button.getBackground());
                }
             });
@@ -162,7 +163,6 @@ public class ButtonSetterDialog extends JDialog {
             saveData = true;
             removeData = false;
             saveButton();
-            dispose();
          }
       });
       JButton cancel = new  JButton("Cancel");
@@ -238,6 +238,8 @@ public class ButtonSetterDialog extends JDialog {
       if (dataManager.getPage() == page) {
          dataManager.setLEDPage(page);
       }
+
+      dispose();
    }
 
    public void removeButton() {
