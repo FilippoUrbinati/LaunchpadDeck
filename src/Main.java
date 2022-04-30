@@ -1,3 +1,4 @@
+
 import com.sinius15.launchpad.*;
 import classes.*;
 import org.jsresources.MidiCommon;

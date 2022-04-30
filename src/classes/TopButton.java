@@ -28,7 +28,6 @@ public class TopButton extends CustomButton {
       });
    }
 
-
    public int getColumn() {
       return this.column;
    }
@@ -38,6 +37,5 @@ public class TopButton extends CustomButton {
    public int getRow() {
       return this.row;
    }
-
 
 }

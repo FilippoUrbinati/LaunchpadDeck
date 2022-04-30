@@ -1,5 +1,6 @@
 package classes;
 
+import java.util.*;
 import javax.sound.sampled.*;
 
 public class SoundPlayer {
@@ -7,6 +8,9 @@ public class SoundPlayer {
    Clip clip;
    String sound;
    FloatControl gainControl;
+   AudioInputStream inputStream;
+
+   ArrayList<Clip> clipList = new ArrayList<Clip>();
 
    int page;
    int column;
@@ -15,16 +19,12 @@ public class SoundPlayer {
    String currentInfoName = " ";
    Mixer.Info infoOutput;
 
-
-
    public SoundPlayer() {
-
       try {
          clip = AudioSystem.getClip();
       } catch (Exception e) {
          e.printStackTrace();
       }
-
    }
 
    public void play(DataManager dataManager) {
@@ -37,22 +37,31 @@ public class SoundPlayer {
                updateInfo();
                clip = AudioSystem.getClip(infoOutput);
             }
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("../sounds/" + sound));
+            clip = AudioSystem.getClip();
+            inputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("../sounds/" + sound));
             clip.open(inputStream);
             gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-
-
-            //clip.open(inputStream);
-            //clip = AudioSystem.getClip(info);
 
             clip.setFramePosition(0);
             clip.start();
             setVolume((float) dataManager.getVolume()/100);
+            clipList.add(clip);
+            /*clip.addLineListener(new LineListener() {
+               @Override
+               public void update(LineEvent e) {
+                  if (e.getType() == LineEvent.Type.STOP) {
+                     clip.close();
+                     if (clipList.contains(clip)) {
+                        System.out.print("yess");
+                        clipList.remove(clip);
+                     }
+                  }
+               }
+            });*/
          } catch (Exception e) {
             e.printStackTrace();
          }
       }
-
    }
 
    public void updateInfo() {
@@ -77,6 +86,13 @@ public class SoundPlayer {
       clip.stop();
       clip.flush();
       clip.close();
+   }
+
+   public void stopAllClips() {
+      for (Clip clip : clipList) {
+         clip.stop();
+      }
+      clipList.clear();
    }
 
    public boolean isRunning() {

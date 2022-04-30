@@ -116,6 +116,7 @@ public class ButtonSetterDialog extends JDialog {
       JPanel panel = new JPanel(new GridBagLayout());
       JLabel label = new JLabel("Volume");
       JSlider slider = new JSlider(0, 100);
+      slider.setUI(new CustomSlider(slider));
       JTextField textField = new JTextField();
       if (buttonAlreadyExists) {
          setVolume(dataManager.getVolume());

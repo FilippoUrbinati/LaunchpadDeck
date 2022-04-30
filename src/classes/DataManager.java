@@ -25,7 +25,7 @@ public class DataManager {
 
    private String location = "./data.json";
    private String locationAudio = "./audio-output.txt";
-   private File fileAudioLocation = new File("./audio-output.txt");
+   private File fileAudioLocation = new File(locationAudio);
    FileWriter writer;
    FileReader reader;
    BufferedReader readerb;
@@ -59,7 +59,6 @@ public class DataManager {
          e.printStackTrace();
       }
    }
-
 
    public void addLaunchpadButton(LaunchpadButton lb) {
       buttonList.add(lb);
@@ -110,7 +109,7 @@ public class DataManager {
    public String loadAudioDevice() {
       String audioDevice;
       try {
-         readerb = new BufferedReader(new FileReader(fileAudioLocation));
+         readerb = new BufferedReader(new FileReader(locationAudio));
          audioDevice = readerb.readLine();
          if (audioDevice == null) {
             return "Driver audio principale";

@@ -20,7 +20,6 @@ public class MyListener implements ButtonListener {
       this.gui = gui;
    }
 
-
    boolean isActive;
    @Override
    public void onButtonDown(int row, int column) {
@@ -29,21 +28,24 @@ public class MyListener implements ButtonListener {
          //turn off all buttons
          page = row;
          gui.setPage(row);
-         //gui.updateLaun(); //toglilo se no cambia la pagina anche nella gui
          dataManager.setLEDPage(page);
+      } else if (row == 0) {
+         if (column == 0) {
+            soundPlayer.stopAllClips();
+         }
       } else {
 
          soundPlayer.setPageColumnRow(page, column, row);
-         if (soundPlayer.isRunning()) {
-            soundPlayer.stop();
-         } else {
+         //if (soundPlayer.isRunning()) {
+            //soundPlayer.stop();
+         //} else {
 
             soundPlayer.play(dataManager);
             /*if (dataManager.exists(page, column, row)) {
                soundPlayer.setVolume(dataManager.getVolume()/100f);
             }*/
             //soundPlayer.setVolume(0.2f);
-         }
+         //}
       }
 
 
