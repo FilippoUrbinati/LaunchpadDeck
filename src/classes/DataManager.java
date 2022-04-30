@@ -31,6 +31,8 @@ public class DataManager {
    BufferedReader readerb;
    Gson gson = new Gson();
 
+   boolean isOQRunning;
+
    public DataManager(Launchpad launchpad) {
       this.launchpad = launchpad;
    }
@@ -149,4 +151,33 @@ public class DataManager {
       }
    }
 
+   public void startOQ() {
+      isOQRunning = true;
+      int[] column = {4, 5, 6, 7, 7, 7, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0, 0, 1, 2, 3, 5, 7};
+      int[] row = {1, 1, 2, 3, 4, 5, 6, 7, 8, 8, 8, 8, 7, 6, 5, 4, 3, 2, 1, 1, 6, 8};
+      for (int i = 0; i < 20; i++) {
+         launchpad.setLedOn(column[i], row[i], Launchpad.COLOR_RED_FULL);
+      }
+      wait(1000);
+      turnOffLed();
+      wait(500);
+      for (int i = 0; i < 22; i++) {
+         launchpad.setLedOn(column[i], row[i], Launchpad.COLOR_RED_FULL);
+      }
+      wait(1000);
+      turnOffLed();
+      //maybe start from the last selected
+      setLEDPage(page);
+      isOQRunning = false;
+   }
+   public boolean isOQRunning() {
+      return isOQRunning;
+   }
+   public static void wait(int ms) {
+      try {
+         Thread.sleep(ms);
+      } catch(Exception e) {
+         e.printStackTrace();
+      }
+   }
 }

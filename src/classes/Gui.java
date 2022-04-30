@@ -14,7 +14,8 @@ public class Gui extends JFrame {
 
    public Gui(DataManager dataManager) {
       this.dataManager = dataManager;
-      dataManager.setLEDPage(page);
+      //maybe start from the last selected
+      //dataManager.setLEDPage(page);
 
       setPreferredSize(new Dimension(495, 500));
       setLocation(500, 200);

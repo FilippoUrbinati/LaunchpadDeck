@@ -20,14 +20,17 @@ public class Main {
       dataManager.loadData();
       Gui gui = new Gui(dataManager);
 
+      dataManager.startOQ();
       //adding the listener for the launchpad buttons
       launchpad.addButtonListener(new MyListener(launchpad, dataManager, gui));
-      launchpad.setLedOn(8, 1, Launchpad.COLOR_RED_FULL);
+
+
 
 
 
 
    }
+
 
 
 }
