@@ -37,7 +37,6 @@ public class SoundPlayer {
                updateInfo();
                clip = AudioSystem.getClip(infoOutput);
             }
-            clip = AudioSystem.getClip();
             inputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("../sounds/" + sound));
             clip.open(inputStream);
             gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -46,18 +45,6 @@ public class SoundPlayer {
             clip.start();
             setVolume((float) dataManager.getVolume()/100);
             clipList.add(clip);
-            /*clip.addLineListener(new LineListener() {
-               @Override
-               public void update(LineEvent e) {
-                  if (e.getType() == LineEvent.Type.STOP) {
-                     clip.close();
-                     if (clipList.contains(clip)) {
-                        System.out.print("yess");
-                        clipList.remove(clip);
-                     }
-                  }
-               }
-            });*/
          } catch (Exception e) {
             e.printStackTrace();
          }
